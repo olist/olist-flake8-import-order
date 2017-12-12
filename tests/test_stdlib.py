@@ -4,7 +4,7 @@ import pycodestyle
 
 import pytest
 
-from flake8_import_order import STDLIB_NAMES
+from flake8_import_order import OLISTLIB_NAMES, STDLIB_NAMES
 from flake8_import_order.checker import ImportOrderChecker
 
 
@@ -27,6 +27,14 @@ def _checker(data):
 @pytest.mark.parametrize('import_name', _load_test_cases())
 def test_styles(import_name):
     data = "import {}\nimport zlib\n".format(import_name)
+    checker = _checker(data)
+    codes = [error.code for error in checker.check_order()]
+    assert codes == []
+
+
+@pytest.mark.parametrize('import_name', OLISTLIB_NAMES)
+def test_olist_lib(import_name):
+    data = "import ast\n\nimport django\n\nimport {}".format(import_name)
     checker = _checker(data)
     codes = [error.code for error in checker.check_order()]
     assert codes == []
