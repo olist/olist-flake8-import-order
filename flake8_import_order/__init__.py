@@ -5,6 +5,7 @@ from flake8_import_order.__about__ import (
     __author__, __copyright__, __email__, __license__, __summary__, __title__,
     __uri__, __version__,
 )
+from flake8_import_order.olistlib_list import OLISTLIB_NAMES
 from flake8_import_order.stdlib_list import STDLIB_NAMES
 
 __all__ = [
@@ -17,6 +18,7 @@ DEFAULT_IMPORT_ORDER_STYLE = 'cryptography'
 IMPORT_FUTURE = 0
 IMPORT_STDLIB = 10
 IMPORT_3RD_PARTY = 20
+IMPORT_OLISTLIB = 24
 IMPORT_APP_PACKAGE = 30
 IMPORT_APP = 40
 IMPORT_APP_RELATIVE = 50
@@ -110,6 +112,8 @@ class ImportVisitor(ast.NodeVisitor):
                 return IMPORT_APP_PACKAGE
             elif package in STDLIB_NAMES:
                 return IMPORT_STDLIB
+            elif package in OLISTLIB_NAMES:
+                return IMPORT_OLISTLIB
 
         # Not future, stdlib or an application import.
         # Must be 3rd party.
